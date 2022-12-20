@@ -24,6 +24,7 @@ public class FunctionGraph {
 		response.setyValues(cosOf);
 		System.out.println(response);
 	return new ResponseEntity<GraphDataResponse>(response, HttpStatus.OK);
+	
 	}
 	
 	
