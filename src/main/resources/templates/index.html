@@ -16,17 +16,18 @@
 	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
 	crossorigin="anonymous">
 	
-	<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	
 <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
-<script type="text/javascript"
-	th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
-<script type="text/javascript"
-	th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
+
+
 </head>
 <title>GraphDraw</title>
 <body>
@@ -38,52 +39,46 @@
 		</div>
 		
 		<div><canvas id="chart_div" height ="600" width = "400"></canvas></div> 
-	      
-	      
+	    
 	      <script type = "text/javascript">
-	      google.charts.load('current',{packages:['corechart']});
+	      
+	    </script>
+	    
+	      <script type = "text/javascript" >
+	    
+	    $(document).ready(
+	    		
+	    		function(){
+	    let x=[];
+	    let y=[];
+	
+	    google.charts.load('current', {'packages':['line']});
 	      google.charts.setOnLoadCallback(drawChart);
-	      var chartData;
-	      $(document).ready(
-	    	
-	    		  
-	    		
-	    		   
-	    		function getChartData (){
-	    		 
-	    	        chartData = cos(4,10,10)
-	    	   
-	    	     
-	    		}
-	    		
-	      )
 	      
-	      
-	        
-	    		function cos(a,b,n){
-	    			 var chartData = $.ajax({
-	 	    			type: "GET",
-	 	    			dataType: "json",
-	 	    			url: "http://localhost:8082/cos?a="+a+"&b="+b +"&n="+n,
-	 	    		  }).done(function(data, textStatus, jqXHR){
-	 	    		        console.log(data);
-	 	    		       console.log(jqXHR.responseText);
-	 	    		        alert(jqXHR)
-	 	    		  });
-	 	    		  
-	 	    		 
-	 	    		 
-	    	  
-	      }  
-	      
-	      
-	      function drawChart() {
+	     
+	    
+	    
+	  			   
+	    function drawChart() {
 	    	// Set Data
-	    	var data = google.visualization.arrayToDataTable([
-	    	  ['Price', 'Size'],
-	    	  [50,7],[60,8],[70,8],[80,9],[90,9],[100,9],
-	    	  [110,10],[120,11],[130,14],[140,14],[150,15]
-	    	  ]);
+	   
+	    	var data = new google.visualization.DataTable();
+	    	data.addColumn('number', 'x');
+	    	data.addColumn('number', 'y');
+	    	data.addRows(
+	    	[
+	    		
+	    		[1,37],
+	    		[2,38],
+	    		[3,40]
+	    		
+	    	]		
+	    	
+	    	
+	    	)
+	    	
+	    	
+	    	
 	    	// Set Options
 	    	var options = {
 	    	  title: 'graph func',
@@ -92,10 +87,67 @@
 	    	  legend: 'none'
 	    	};
 	    	// Draw Chart
-	    	var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+	    	  var chart = new google.charts.Line(document.getElementById('chart_div'));
+	    	
 	    	chart.draw(data, options);
 	    	}
+	   
+	    
+	   
+	      function decodeHtml(html) { 
+			    var txt = document.createElement("textarea"); 
+			    txt.innerHTML = html; 
+	 		    return txt.value; 
+		} 
+
+	      
+	      
+	      function getChartData (){
+	                	
+	    	      var myData = cos(1,4,5)
+	    	     x = myData.responseJSON.xValues.map( x => x);
+	    	      y = myData.responseJSON.yValues.map( x => x);
+	    	     
+	    	      console.log("x: "+ x[0])
+	    	      var arry = new Array(2,x.length)   
+	    	    
+	    	 console.log("my Data: " + arry)
+	    	   for (i = 0; i< myData.responseJSON.xValues.length; i++){
+	    		  
+	    		   arry[i,i]=[x[i],y[i]];
+	    		   
+	    	   
+	    	   }
+	    	       
+	    	       console.log("arry: " + arry);
+	    		}
+	    		
+	     
+	    		function cos(a,b,n){
+	    			 var data = $.ajax({
+	 	    			type: "GET",
+	 	    			async: false,
+	 	    			dataType: "json",
+	 	    			url: "http://localhost:8082/cos?a="+a+"&b="+b +"&n="+n,
+	 	    		  }).done(function(data, textStatus, jqXHR){
+	 	    		
+	 	    		     
+	 	    		      //  alert(jqXHR.responseJSON.yValues)
+	 	    		  });
+	 	    		  
+	 	    		 
+	 	    		 return data;
+	    	  
+	     }  
+	      
+
+  	    		getChartData()
+  	    		drawChart()
+  	    		
+	    		})
+	    
 	      </script>
+	      
 	</div>
 </body>
 </html>
