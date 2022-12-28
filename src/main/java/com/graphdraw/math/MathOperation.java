@@ -1,5 +1,6 @@
 package com.graphdraw.math;
-import java.math.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import org.springframework.stereotype.Component;
 
@@ -46,5 +47,27 @@ public static Double[] linspace(Double a, Double b, Integer n) {
 			  System.out.print(arr[i]+" ");
 		  }
 		  }
+	  }
+	  
+	  
+	  
+	  public Double function (String functionName, double... param) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException{
+		  Class<?> mathClass = java.lang.Math.class;
+          double c;
+          
+          if (param.length >1){
+        Method myMeth = mathClass.getMethod(functionName, double.class,double.class);
+          c = (double) myMeth.invoke(mathClass, param[0],param[1]);
+              
+          }
+          
+          else{
+              Method myMeth = mathClass.getMethod(functionName, double.class);
+            c = (double) myMeth.invoke(mathClass, param[0]);
+    
+          }
+       System.out.println("returned value: " + c);
+       
+       return c;
 	  }
 }

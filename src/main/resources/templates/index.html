@@ -51,7 +51,7 @@
 	    		function(){
 	    let x=[];
 	    let y=[];
-	
+	   
 	    google.charts.load('current', {'packages':['line']});
 	      google.charts.setOnLoadCallback(drawChart);
 	      
@@ -104,7 +104,7 @@
 	      
 	      function getChartData (){
 	                	
-	    	      var myData = cos(1,4,5)
+	    	      var myData = mathFunc("cos",1,4,5)
 	    	     x = myData.responseJSON.xValues.map( x => x);
 	    	      y = myData.responseJSON.yValues.map( x => x);
 	    	     
@@ -119,16 +119,16 @@
 	    	   
 	    	   }
 	    	       
-	    	       console.log("arry: " + arry);
+	    	       alert(arry);
 	    		}
 	    		
 	     
-	    		function cos(a,b,n){
+	    		function mathFunc(name,a,b,n){
 	    			 var data = $.ajax({
 	 	    			type: "GET",
 	 	    			async: false,
 	 	    			dataType: "json",
-	 	    			url: "http://localhost:8082/cos?a="+a+"&b="+b +"&n="+n,
+	 	    			url: "http://localhost:8082/function?name=" + name+"&a="+a+"&b="+b +"&n="+n,
 	 	    		  }).done(function(data, textStatus, jqXHR){
 	 	    		
 	 	    		     
