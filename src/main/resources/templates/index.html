@@ -6,6 +6,8 @@
 
 <head>
 <!--  Required meta tags -->
+
+
 <meta charset="UTF-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -15,101 +17,69 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
 	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
 	crossorigin="anonymous">
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+	 
+	</script>
 <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
 
-<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script type="text/javascript"
+	th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 
-	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
 
 
 </head>
 <title>GraphDraw</title>
 <body>
 	<div class="container-fluid" align="text-center">
-		
+
 
 		<div>
 			<h1>Graph Drawing API</h1>
 		</div>
-		
-		<div><canvas id="chart_div" height ="600" width = "400"></canvas></div> 
-	    
-	      <script type = "text/javascript">
-	      
+
+		&nbsp; &nbsp; &nbsp; &nbsp;
+		<div id="chart_div" height="600" width="400"></div>
+
+		<script type="text/javascript">
+	     
 	    </script>
-	    
-	      <script type = "text/javascript" >
-	    
+
+		<script type="text/javascript">
+	
 	    $(document).ready(
 	    		
 	    		function(){
 	    let x=[];
 	    let y=[];
-	   
-	    google.charts.load('current', {'packages':['line']});
-	      google.charts.setOnLoadCallback(drawChart);
-	      
-	     
+	  	let arry;
+	    let n=100;
+	    let funName;
 	    
 	    
-	  			   
-	    function drawChart() {
-	    	// Set Data
-	   
-	    	var data = new google.visualization.DataTable();
-	    	data.addColumn('number', 'x');
-	    	data.addColumn('number', 'y');
-	    	data.addRows(
-	    	[
-	    		
-	    		[1,37],
-	    		[2,38],
-	    		[3,40]
-	    		
-	    	]		
-	    	
-	    	
-	    	)
-	    	
-	    	
-	    	
-	    	// Set Options
-	    	var options = {
-	    	  title: 'graph func',
-	    	  xAxis: {title: 'x'},
-	    	  yAxis: {title: 'y'},
-	    	  legend: 'none'
-	    	};
-	    	// Draw Chart
-	    	  var chart = new google.charts.Line(document.getElementById('chart_div'));
-	    	
-	    	chart.draw(data, options);
-	    	}
-	   
-	    
-	   
-	      function decodeHtml(html) { 
-			    var txt = document.createElement("textarea"); 
-			    txt.innerHTML = html; 
-	 		    return txt.value; 
-		} 
-
-	      
-	      
-	      function getChartData (){
-	                	
-	    	      var myData = mathFunc("cos",1,4,5)
+	      function getChartData (funcName,a,b){
+	    	  funName=funcName
+	    	  
+	    	 
+	    	      var myData = mathFunc(funcName,a,b,n);
+	    	  
+	    	  
+	    	        //var myData = getpolynomial([1,2,3],-10,10);
+	    	        console.log(myData);
+	    	  
 	    	     x = myData.responseJSON.xValues.map( x => x);
 	    	      y = myData.responseJSON.yValues.map( x => x);
 	    	     
 	    	      console.log("x: "+ x[0])
-	    	      var arry = new Array(2,x.length)   
+	    	       arry = new Array(2,x.length)   
 	    	    
 	    	 console.log("my Data: " + arry)
 	    	   for (i = 0; i< myData.responseJSON.xValues.length; i++){
@@ -119,11 +89,29 @@
 	    	   
 	    	   }
 	    	       
-	    	       alert(arry);
+	    	      
 	    		}
 	    		
+	      
+	      function getPolynomialChartData (coeffs,a,b){
+	    	  
+	    	  var myData = getpolynomial(coeffs,a,b);
+	    	  x = myData.responseJSON.xValues.map( x => x);
+    	      y = myData.responseJSON.yValues.map( x => x);
+    	     
+    	      console.log("x: "+ x[0])
+    	       arry = new Array(2,x.length)   
+    	    
+    	 console.log("my Data: " + arry)
+    	   for (i = 0; i< myData.responseJSON.xValues.length; i++){
+    		  
+    		   arry[i,i]=[x[i],y[i]];
+    		   
+    	   
+    	   }
+	      }
 	     
-	    		function mathFunc(name,a,b,n){
+	    		function mathFunc(name,a,b){
 	    			 var data = $.ajax({
 	 	    			type: "GET",
 	 	    			async: false,
@@ -139,15 +127,71 @@
 	 	    		 return data;
 	    	  
 	     }  
-	      
+	            function getpolynomial(coeffs,a,b){
+	            	
+	            	var postData = {
+	            			"a" : a,
+	            			"b" : b,
+	            			"n" : n,
+	            			"coeffs": coeffs
+	            	}
+	            	var data = $.ajax({
+	            	url: "http://localhost:8082/function/polynomial/",	
+	            	type: "POST",
+	            	async: false,
+	            	data: JSON.stringify( postData),
+	            	contentType: "application/json"
+	            	})
+	            	
+	            	return data;
+	            }
 
-  	    		getChartData()
-  	    		drawChart()
-  	    		
+  	    		//getChartData("cos",1,10)
+  	    	   getPolynomialChartData([2,1,1,9],-10,10)
+  	    		google.charts.load('current', {'calback': 'loadPage','packages':['Line']}).then(
+  	  	    		
+  	 	    		 function () {
+  	 	    		    	// Set Data
+  	 	    		  // console.log(google.visualization.DataTable)
+  	 	    		    	var data = new google.visualization.DataTable();
+  	 	    		    	data.addColumn('number', 'x');
+  	 	    		    	data.addColumn('number', funName);
+  	 	    		    	
+  	 	    		    
+  	 	    		    
+  	 	    		    	data.addRows(
+  	 	    		    	arry
+  	 	    		    	
+  	 	    		    	
+  	 	    		    	)
+  	 	    		    	
+  	 	    		    	
+  	 	    		    	
+  	 	    		    	// Set Options
+  	 	    		    	var options = {
+  	 	    		    	  title: 'graph func',
+  	 	    		    	  xAxis: {title: 'x',min:-1000,max:1000},
+  	 	    		    	  yAxis: {title: 'y'},
+  	 	    		    	  legend: 'none'
+  	 	    		    	};
+  	 	    		    	// Draw Chart
+  	 	    		    	  var chart = new google.charts.Line(document.getElementById('chart_div'));
+  	 	    		    	
+  	 	    		    	chart.draw(data, options);
+  	 	    		    	}
+  	 	    		   
+  	 	    
+  	 	    
+  	 	    );
 	    		})
 	    
-	      </script>
+	    		
+	    		
+	    				   
+	    
 	      
+	      </script>
+
 	</div>
 </body>
 </html>

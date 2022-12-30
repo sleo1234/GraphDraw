@@ -4,10 +4,13 @@ import java.lang.reflect.Method;
 
 import org.springframework.stereotype.Component;
 
+import com.graphdraw.api.PolynomialRequest;
+
 @Component
 public class MathOperation {
 
 	
+	Polynomial polyObj = new Polynomial ();
 	
 	
 	public static Double[] cos(Double[] argument){
@@ -69,5 +72,17 @@ public static Double[] linspace(Double a, Double b, Integer n) {
        System.out.println("returned value: " + c);
        
        return c;
+	  }
+	  
+	  
+	  public  Double [] evalPolynomial (Double [] argument, Double... coeffs) {
+		  
+		  Double [] result = new Double[argument.length];
+		  Double n = coeffs.length-1.0;
+		  
+		  for (int i=0; i < argument.length; i++) {
+			  result[i] = polyObj.polynomial(coeffs, n, argument[i]);
+		  }
+		  return result;
 	  }
 }
