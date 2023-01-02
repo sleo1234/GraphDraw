@@ -48,7 +48,16 @@
 
 		&nbsp; &nbsp; &nbsp; &nbsp;
 		<div id="chart_div" height="600" width="400"></div>
-
+		<div id="chart_button" class="btn btn-primary" >Draw Graph</div>
+		&nbsp; 
+		&nbsp;
+     	&nbsp;
+ 			&nbsp;
+         <div > a: <input type="text" id="A"/></div>
+         <div  > b: <input type="text" id="B"/></div>
+         <div > Function: <input type="text" id="funcName"/></div>
+         
+         <div> For polynomials (input vector of coefficients): <input type="text" id="polynomial"/></div>
 		<script type="text/javascript">
 	     
 	    </script>
@@ -63,8 +72,34 @@
 	  	let arry;
 	    let n=100;
 	    let funName;
+	    let a;
+	    let b;
+	   // let coeffs=[];
 	    
+	    $("#chart_button").on("click", function(){
+	    	myFunc()
+	    })
+	    function myFunc(){
+	    	funName=$("#funcName").val();
+	    	a=$("#A").val();
+	    	b=$("#B").val();
+	    	
+	    	if (funName != "poly"){
+	    	getChartData(funName,a,b)
 	    
+	    	}
+	         if (funName == "poly"){
+	        	 var coeffs=[];
+	        	 coeffsString=$("#polynomial").val()
+	        	 coeffsValues= coeffsString.split(" ")
+	        	 for (var i=0; i<coeffsValues.length; i++){
+	        		 coeffs.push(coeffsValues[i])
+	        	 }
+	        	 alert(coeffs)
+	        	 getPolynomialChartData(coeffs,a,b)
+	         }
+	   drawGoogleChart()
+	    }
 	      function getChartData (funcName,a,b){
 	    	  funName=funcName
 	    	  
@@ -147,7 +182,10 @@
 	            }
 
   	    		//getChartData("cos",1,10)
-  	    	   getPolynomialChartData([2,1,1,9],-10,10)
+  	    	   getPolynomialChartData([-2,0,0,1],-1,1)
+  	    	   
+  	    	   
+  	    	   function drawGoogleChart(){
   	    		google.charts.load('current', {'calback': 'loadPage','packages':['Line']}).then(
   	  	    		
   	 	    		 function () {
@@ -170,8 +208,12 @@
   	 	    		    	// Set Options
   	 	    		    	var options = {
   	 	    		    	  title: 'graph func',
-  	 	    		    	  xAxis: {title: 'x',min:-1000,max:1000},
+  	 	    		    	  xAxis: {title: 'x'},
   	 	    		    	  yAxis: {title: 'y'},
+  	 	    		    	vAxis: {
+  	 	    		    	    gridlines: {count: 20}
+  	 	    		    	   
+  	 	    		    	},
   	 	    		    	  legend: 'none'
   	 	    		    	};
   	 	    		    	// Draw Chart
@@ -183,11 +225,12 @@
   	 	    
   	 	    
   	 	    );
+  	    		}
 	    		})
 	    
 	    		
 	    		
-	    				   
+	    			   
 	    
 	      
 	      </script>
